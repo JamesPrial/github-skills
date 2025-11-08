@@ -15,9 +15,9 @@ This skill contains 3 scripts made to automate repeatitive github workflows i fo
 even with Claude doing it all it was still wasteful. The SKILL.md is limited, deferring to the references.
 review the SKILL.md and references for more info
 
-gh_code_search.py - searches for code on Github, such as searching your codebase for leaked credentials, or searching for examples
-gh_failed_run.py - extracts the error message from your most recent Github Actions run
-gh_pages_deploy.py -handles the tedium of deploy to Github Pages
+- gh_code_search.py - searches for code on Github, such as searching your codebase for leaked credentials, or searching for examples
+- gh_failed_run.py - extracts the error message from your most recent Github Actions run
+- gh_pages_deploy.py - handles the tedium of deploy to Github Pages
 
 ## github-actions-writer
 
@@ -27,17 +27,17 @@ but it has some templates and best practices.
 
 ## Dependencies
 
-Python 3.9+
-gh CLI
+- Python 3.9+
+- gh CLI
 
 ## Setup
 
-Install the gh CLI, in your terminal run 'gh auth login' and follow the instructions.
-Download the skill you want, then put it in ./claude/skills/, and restart Claude Code.
+- Install the gh CLI, in your terminal run 'gh auth login' and follow the instructions.
+- Download the skill you want, then put it in ./claude/skills/, and restart Claude Code.
 
 ## Usage
 
-Run 'gh auth login' and follow the instructions.
-Telling Claude to explicitly use the skill tends to work best.
-Use the official 'Skills Creator' skill and make your own if you want,
+- Run 'gh auth login' and follow the instructions.
+- Telling Claude to explicitly use the skill tends to work best.
+- Use the official 'Skills Creator' skill and make your own if you want,
 nothing special about mine
