@@ -36,7 +36,6 @@ Use `scripts/gh_pages_deploy.py` for GitHub Pages deployment automation includin
 
 When working with GitHub CLI:
 
-- Verify authentication status with `gh auth status` before operations
 - Prefer `gh` commands over raw `git` commands for GitHub-specific operations (issues, PRs, releases)
 - Use `gh repo view` to quickly inspect repository details
 - Leverage `gh pr create --web` or `gh issue create --web` for interactive workflows
