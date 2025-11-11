@@ -59,7 +59,7 @@ def get_most_recent_failed_run(repo: Optional[str] = None) -> Optional[Dict[str,
         "gh", "run", "list",
         "--status", "failure",
         "--limit", "1",
-        "--json", "number,conclusion,status,createdAt,displayTitle,url,headBranch,headSha,event"
+        "--json", "databaseId,number,conclusion,status,createdAt,displayTitle,url,headBranch,headSha,event"
     ]
 
     if repo:
@@ -73,19 +73,19 @@ def get_most_recent_failed_run(repo: Optional[str] = None) -> Optional[Dict[str,
     return runs[0]
 
 
-def get_failed_jobs(run_number: int, repo: Optional[str] = None) -> List[Dict[str, Any]]:
+def get_failed_jobs(run_id: int, repo: Optional[str] = None) -> List[Dict[str, Any]]:
     """
     Get all jobs from a run and filter for failed ones.
 
     Args:
-        run_number: The workflow run number
+        run_id: The workflow run database ID
         repo: Optional repository in format 'owner/name'
 
     Returns:
         List of failed job dictionaries
     """
     cmd = [
-        "gh", "run", "view", str(run_number),
+        "gh", "run", "view", str(run_id),
         "--json", "jobs"
     ]
 
@@ -154,12 +154,12 @@ def extract_error_excerpts(log_text: str, max_lines: int = 50) -> List[str]:
     return excerpts
 
 
-def get_job_logs(run_number: int, job_name: str, repo: Optional[str] = None) -> str:
+def get_job_logs(run_id: int, job_name: str, repo: Optional[str] = None) -> str:
     """
     Get logs for a specific failed job.
 
     Args:
-        run_number: The workflow run number
+        run_id: The workflow run database ID
         job_name: The name of the job
         repo: Optional repository in format 'owner/name'
 
@@ -167,7 +167,7 @@ def get_job_logs(run_number: int, job_name: str, repo: Optional[str] = None) -> 
         Log text for the job
     """
     cmd = [
-        "gh", "run", "view", str(run_number),
+        "gh", "run", "view", str(run_id),
         "--log-failed",
         "--job", job_name
     ]
@@ -186,7 +186,7 @@ def get_job_logs(run_number: int, job_name: str, repo: Optional[str] = None) -> 
     except subprocess.CalledProcessError:
         # If specific job logs fail, try getting all failed logs
         cmd_all = [
-            "gh", "run", "view", str(run_number),
+            "gh", "run", "view", str(run_id),
             "--log-failed"
         ]
         if repo:
@@ -223,13 +223,14 @@ def analyze_failed_run(repo: Optional[str] = None) -> Dict[str, Any]:
             "repository": repo or "current"
         }
 
-    # Get failed jobs
-    failed_jobs = get_failed_jobs(run["number"], repo)
+    # Get failed jobs using databaseId
+    failed_jobs = get_failed_jobs(run["databaseId"], repo)
 
     # Build result structure
     result = {
         "run": {
             "number": run["number"],
+            "database_id": run["databaseId"],
             "url": run["url"],
             "workflow": run["displayTitle"],
             "conclusion": run["conclusion"],
@@ -254,8 +255,8 @@ def analyze_failed_run(repo: Optional[str] = None) -> Dict[str, Any]:
             "error_excerpts": []
         }
 
-        # Get logs and extract errors
-        logs = get_job_logs(run["number"], job["name"], repo)
+        # Get logs and extract errors using databaseId
+        logs = get_job_logs(run["databaseId"], job["name"], repo)
         if logs:
             job_info["error_excerpts"] = extract_error_excerpts(logs)
 
