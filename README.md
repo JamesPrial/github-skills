@@ -1,43 +1,81 @@
 # github-skills
 
-This repo contains 2 skills for use with Claude Skills, gh-cli and github-actions-writer.
-They aim to simplify interacting with the Github API via the gh CLI, for use in Claude Code.
-The gh CLI handles all authentication, so you don't have to worry about me leaking your keys,
-this was entirely made by Claude so use at your own risk.
+A Claude Code plugin containing skills for GitHub automation via the gh CLI.
+These skills simplify interacting with the GitHub API for use in Claude Code.
+The gh CLI handles all authentication, so you don't have to worry about leaking keys.
 
-Please please PLEASE be mindful of the risks involved in pulling arbitrary code from Github,
-the most obvious risk is prompt injection but arbitrary code execution isn't great either.
-Try to avoid those
+> **Warning:** This was entirely made by Claude, use at your own risk.
+> Please be mindful of the risks involved in pulling arbitrary code from GitHub,
+> including prompt injection and arbitrary code execution.
 
-## gh-cli
+## Installation
 
-This skill contains 3 scripts made to automate repeatitive github workflows i found myself doing,
-even with Claude doing it all it was still wasteful. The SKILL.md is limited, deferring to the references.
-review the SKILL.md and references for more info
+### As a Plugin (Recommended)
 
-- gh_code_search.py - searches for code on Github, such as searching your codebase for leaked credentials, or searching for examples
-- gh_failed_run.py - extracts the error message from your most recent Github Actions run
-- gh_pages_deploy.py - handles the tedium of deploy to Github Pages
+Install directly from GitHub:
+```
+/plugin install JamesPrial/github-skills
+```
 
-## github-actions-writer
+Once installed, both skills are available as:
+- `/github-skills:gh-cli` - GitHub CLI utilities
+- `/github-skills:github-actions-writer` - GitHub Actions workflow generator
 
-This one is as much for me as Claude. Claude already knows how to write Github Actions (he wrote the skill!),
-but it has some templates and best practices.
+### Manual Installation
 
+Clone the repository and use with the `--plugin-dir` flag:
+```bash
+git clone https://github.com/JamesPrial/github-skills.git
+claude --plugin-dir /path/to/github-skills
+```
+
+## Skills Included
+
+### gh-cli
+
+GitHub CLI utilities for automating repetitive workflows. Review the SKILL.md and references for more info.
+
+- **gh_code_search.py** - Search for code on GitHub (e.g., searching for leaked credentials or finding examples)
+- **gh_failed_run.py** - Extract error messages from your most recent GitHub Actions run
+- **gh_pages_deploy.py** - Handle the tedium of deploying to GitHub Pages
+
+### github-actions-writer
+
+A skill for creating and optimizing GitHub Actions CI/CD workflows with best practices and security built-in.
+Includes templates and validation tools.
 
 ## Dependencies
 
 - Python 3.9+
-- gh CLI
+- gh CLI (GitHub CLI)
 
 ## Setup
 
-- Install the gh CLI, in your terminal run 'gh auth login' and follow the instructions.
-- Download the skill you want, then put it in ./claude/skills/, and restart Claude Code.
+1. Install the [gh CLI](https://cli.github.com/)
+2. Run `gh auth login` and follow the instructions
+3. Install this plugin using one of the methods above
 
 ## Usage
 
-- Run 'gh auth login' and follow the instructions.
-- Telling Claude to explicitly use the skill tends to work best.
-- Use the official 'Skills Creator' skill and make your own if you want,
-nothing special about mine
+After installation, tell Claude to explicitly use the skill for best results:
+- "Use gh-cli to search for examples of X on GitHub"
+- "Use github-actions-writer to create a CI workflow for my Node.js project"
+
+## Project Structure
+
+```
+github-skills/
+├── .claude-plugin/
+│   └── plugin.json          # Plugin manifest
+├── skills/
+│   ├── gh-cli/              # GitHub CLI utilities skill
+│   │   ├── SKILL.md
+│   │   ├── scripts/
+│   │   └── references/
+│   └── github-actions-writer/  # GitHub Actions skill
+│       ├── SKILL.md
+│       ├── scripts/
+│       ├── assets/templates/
+│       └── references/
+└── README.md
+```
