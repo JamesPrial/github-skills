@@ -1,0 +1,11 @@
+{
+  "name": "github-skills",
+  "description": "Complete GitHub workflow toolkit with CLI utilities for code search, workflow debugging, Pages deployment, and Actions workflow generation",
+  "version": "1.0.0",
+  "author": {
+    "name": "JamesPrial"
+  },
+  "homepage": "https://github.com/JamesPrial/github-skills",
+  "repository": "https://github.com/JamesPrial/github-skills",
+  "license": "MIT"
+}
